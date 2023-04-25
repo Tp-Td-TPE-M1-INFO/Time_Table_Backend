@@ -19,7 +19,7 @@ const studentSchema = new mongoose.Schema({
         type : String,
         required: true,
         maxlength: 7,
-        minLeng
+        minLength: 7
     },
 
     email: {
@@ -43,8 +43,9 @@ const studentSchema = new mongoose.Schema({
         type: Boolean,
         default : false
     }
-},{
+},
+{
     timestamps: true
 });
 
-module.exports = mongoose.model('student', studentSchema);
+module.exports = mongoose.model('Student', studentSchema);
