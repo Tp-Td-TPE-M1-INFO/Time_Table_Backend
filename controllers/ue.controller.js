@@ -54,8 +54,8 @@ const deleteUE = asyncHandler(async (req,res) =>{
         res.status(404);
         throw new Error('UE not found');
     };
-    await UE.remove();
-    res.status(200).json({message: 'ok'});
+    await UE.deleteOne();
+    res.status(200).json(ue);
 });
 
 module.exports = {getUE, createUE, get_one_UE, updateUE, deleteUE};

@@ -3,6 +3,6 @@ const {getUE, createUE, get_one_UE, updateUE, deleteUE} = require('../controller
 
 router.route('/ue').get(getUE).post(createUE);
 
-router.route('/ue/:id').get(get_one_UE).put(updateUE).get(deleteUE);
+router.route('/ue/:id').get(get_one_UE).put(updateUE).delete(deleteUE);
 
 module.exports = router;

@@ -10,6 +10,9 @@ app.use(cors());
 app.use(errorHandler);
 
 app.use('/api', require('./routes/ue.routes'));
+app.use('/api', require('./routes/class.routes'));
+app.use('/api', require('./routes/level..routes'));
+app.use('/api', require('./routes/sector.routes'));
 
 const port = process.env.PORT;
 app.listen(port, ()=>{

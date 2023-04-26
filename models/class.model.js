@@ -3,15 +3,17 @@ const mongoose = require('mongoose');
 const classSchema = new mongoose.Schema({
     effectif: {
         type: Number,
-        required: true,
+        required: [true, 'Please add effectif'],
     },
     level: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Level'
+        ref: 'levels',
+        required: [true, 'Please add level']
     },
     sector: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Sector'
+        ref: 'sectors',
+        required: [true, 'Please add sector']
     }
 },{
     timestamps: true
