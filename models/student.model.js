@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const studentSchema = new mongoose.Schema({
     surname: {
@@ -12,12 +13,12 @@ const studentSchema = new mongoose.Schema({
         required: true,
         trim: true,
         maxlength: 25,
-        unique: true
     },
     
     registerNumber: {
         type : String,
         required: true,
+        unique: true,
         maxlength: 7,
         minLength: 7
     },
@@ -39,13 +40,26 @@ const studentSchema = new mongoose.Schema({
         type: String,
         default: '../images/profil/profil.png'
     },
-    isPresident:{
-        type: Boolean,
-        default : false
+    role:{
+        type: String,
+        default : "student"
+    },
+    token:{
+        type : String,
+        required: true
     }
 },
 {
     timestamps: true
-});
+}); 
 
-module.exports = mongoose.model('Student', studentSchema);
+studentSchema.methods .generateToken = async function(){
+     const authToken = jwt.sign({ _id: this._id.toString()}, process.env.TOKEN_SECRET,{
+        expiresIn: 30*24*60*60*1000,
+      });
+      this.token=authToken;
+      await this.save();
+      return authToken
+}
+
+module.exports = mongoose.model('Student', studentSchema);   

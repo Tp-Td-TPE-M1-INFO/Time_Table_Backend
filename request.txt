@@ -1,0 +1,13 @@
+{
+    "registerNumber": "18T2309",
+    "password": "123456"
+}
+
+{
+    "surname": "Cyrille",
+    "name": "Tchinde",
+    "registerNumber": "19M2082",
+    "email" : "cyrille@gmail.com",
+    "phone": "693039514",
+    "password": "123456"
+}
