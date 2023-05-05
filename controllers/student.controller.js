@@ -1,20 +1,13 @@
 const Student = require('../models/student.model');
 const {registerValidation, loginValidation} = require('../middlewares/validation');
 const bcrypt = require('bcrypt');
-const ObjectID = require("mongoose").Types.ObjectId;
+const errorCtr = require('../utils/error.utils');
 
 //Check if the registration number is already in the database
 const register = (async (req, res)=>{
     const {name, surname, registerNumber, phone, email, password} = req.body;
     const {error} = registerValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
-    
-    //Check if the Student is already in the database
-    const emailExist = await Student.findOne({email});
-    if(emailExist) return res.status(400).send('Email already exist');
-    const registerNumberExist = await Student.findOne({registerNumber});
-    if(registerNumberExist) return res.status(400).send('Registration number already exist')
-     
     //Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,9 +23,18 @@ const register = (async (req, res)=>{
     }) ;
     try{
         const authToken = await student.generateToken();
-        res.send({student, authToken});
+        res.status(201).json({
+            name : student.name,
+            surname: student.surname,
+            registerNumber: student.registerNumber,
+            email : student.email,
+            avatar : student.avatar,
+            token: authToken
+        })
     }catch(err){
-        res.status(400).send(err);
+        console.log(err.message)
+        errors = errorCtr.signUpErrors(err)
+        res.status(400).json(errors);
     }
 })   
 
@@ -56,6 +58,7 @@ const login = (async (req, res) =>{
             surname: student.surname,
             registerNumber: student.registerNumber,
             email : student.email,
+            avatar : student.avatar,
             token: token
         })
 })

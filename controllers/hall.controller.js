@@ -13,19 +13,40 @@ const getHall = (async (req, res) => {
 })
 
 const createHall = (async (req, res) => {
-    await Hall.create(req.body)
-        .then(result => res.status(200).json({ result }))
-        .catch((error) => res.status(500).json({ msg: error }))
+    const{name, capacity} = req.body;
+    try{
+        const hall = new Hall({name, capacity});
+        await hall.save();
+        res.status(200).json(hall);
+    }
+    catch(err){
+        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("name")){
+            res.status(400).send({message: "Hall name is already exit please change the name"});
+        }
+        else{
+            res.status(500).send(err)
+        }
+    }
+    
 })
 
 const updateHall = (async (req, res) => {
-    await Hall.findOneAndUpdate( 
-        req.params.hallID, 
-        req.body,
-        { new: true, runValidators: true }
-    )
-    .then(result => res.status(200).json({ result }))
-    .catch((error) => res.status(404).json({ msg: 'Hall not found' }))
+    try{
+        const hall = await Hall.findOneAndUpdate( 
+            req.params.hallID, 
+            req.body,
+            { new: true, runValidators: true }
+        )
+        res.status(200).json(hall);
+    }
+    catch(err){
+        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("name")){
+            res.status(400).send({message: "Hall name is already exit please change the name"});
+        }
+        else{
+            res.status(500).send(err)
+        }
+    }
 })
 
 const deleteHall = (async (req, res) => {

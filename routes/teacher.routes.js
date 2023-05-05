@@ -12,5 +12,4 @@ router.delete('/teacher/delete', protect, deleteTeacher)
 router.patch('/teacher/profil/:id', protect,upload, profil)
 router.patch('/teacher/deleteProfil/:id', protect,deleteProfil)
 
-
 module.exports = router;

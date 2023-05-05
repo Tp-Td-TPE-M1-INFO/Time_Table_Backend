@@ -5,14 +5,10 @@ const studentSchema = new mongoose.Schema({
     surname: {
         type: String,
         required: true,
-        trim: true,
-        maxlength: 25
     },
     name: {
         type: String,
         required: true,
-        trim: true,
-        maxlength: 25,
     },
     
     registerNumber: {
@@ -31,7 +27,8 @@ const studentSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minLength: 6
     },
     phone: {
         type: String,
