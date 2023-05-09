@@ -3,31 +3,31 @@ const mongoose = require('mongoose');
 const CourseSchema = new mongoose.Schema({
     ue: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'ues',
+        ref: 'UE',
         required: true
     },
     hall: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'halls',
+        ref: 'Hall',
         required: true
     },
     classe: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'classes',
+        ref: 'Class',
         required: true
     },
     teacher: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'teachers',
+        ref: 'Teacher',
         required: true
     },
     start: {
         type: Date,
-        required: true
+        default: Date.now
     },
     end: {
         type: Date,
-        required: true
+        default: Date.now
     },
     description: {
         type: String

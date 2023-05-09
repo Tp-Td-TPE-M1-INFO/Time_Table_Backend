@@ -13,6 +13,7 @@ app.use('/api', require('./routes/ue.routes'));
 app.use('/api', require('./routes/class.routes'));
 app.use('/api', require('./routes/level..routes'));
 app.use('/api', require('./routes/sector.routes'));
+app.use('/api', require('./routes/course.route'));
 
 const port = process.env.PORT;
 app.listen(port, ()=>{
