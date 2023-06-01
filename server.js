@@ -20,6 +20,10 @@ app.use('/api', require('./routes/student.routes'));
 app.use('/api', require('./routes/teacher.routes'));
 app.use('/api', require('./routes/hall.routes.js'));
 
+app.get("/", (req, res) =>{
+    res.setHeader("Access-control-credential","true");
+    res.send("api is runnig")
+})
 app.use(express.static(__dirname +'/public'));
 
 const port = process.env.PORT;
