@@ -22,12 +22,12 @@ const CourseSchema = new mongoose.Schema({
         required: true
     },
     start: {
-        type: Date,
-        default: Date.now
+        type: Number,
+        required: true
     },
     end: {
-        type: Date,
-        default: Date.now
+        type: Number,
+        required: true
     },
     description: {
         type: String

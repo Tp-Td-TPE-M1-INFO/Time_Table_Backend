@@ -1,7 +1,7 @@
 require('dotenv').config({ path: './config/.env' });
 const express = require('express');
 const cors = require('cors');
-const errorHandler = require('./middleware/errorhandler');
+const errorHandler = require('./middlewares/errorHandler');
 
 require('./config/db');
 const app = express();
@@ -16,11 +16,11 @@ app.use('/api', require('./routes/level..routes'));
 app.use('/api', require('./routes/sector.routes'));
 app.use('/api', require('./routes/course.route'));
 app.use('/api', require('./routes/otherEvent.routes'));
-app.use(express.static(__dirname +'/public'));
-
 app.use('/api', require('./routes/student.routes'));
 app.use('/api', require('./routes/teacher.routes'));
 app.use('/api', require('./routes/hall.routes.js'));
+
+app.use(express.static(__dirname +'/public'));
 
 const port = process.env.PORT;
 app.listen(port, ()=>{

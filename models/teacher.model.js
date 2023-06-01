@@ -53,7 +53,7 @@ teacherSchema.methods .generateToken = async function(){
      });
      this.tokens.push({authToken});
      await this.save();
-     return authToken
+     return authToken;
 }
 
 module.exports = mongoose.model('Teacher', teacherSchema);
