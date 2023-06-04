@@ -1,5 +1,5 @@
 const Student = require('../models/student.model');
-const {registerValidation, loginValidation} = require('../middlewares/validation');
+const {registerValidation} = require('../middlewares/validation');
 const bcrypt = require('bcrypt');
 const errorCtr = require('../utils/error.utils');
 
@@ -13,59 +13,32 @@ const register = (async (req, res)=>{
     const hashedPassword = await bcrypt.hash(password, salt);
     
     //Create a new Student
-    const student = new Student({
-        name,
-        surname,
-        registerNumber,
-        phone,
-        email,
-        password: hashedPassword
-    }) ;
     try{
-        const authToken = await student.generateToken();
+        const student = await Student.create({
+            name,
+            surname,
+            registerNumber,
+            phone,
+            email,
+            password: hashedPassword
+        }) ;
+
         res.status(201).json({
             name : student.name,
             surname: student.surname,
             registerNumber: student.registerNumber,
             email : student.email,
             avatar : student.avatar,
-            token: authToken
         })
     }catch(err){
-        console.log(err.message)
-        errors = errorCtr.signUpErrors(err)
+        const errors = errorCtr.signUpErrors(err)
         res.status(400).json(errors);
     }
 })   
 
-const login = (async (req, res) =>{
-    const{registerNumber, password } = req.body;
-
-    const {error} = loginValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-        //Check if the registration number exist
-        const student = await Student.findOne({registerNumber});
-        if(!student) return res.status(400).send('Invalid register number or password');
-        //check if the password is correct
-        const validPass = await bcrypt.compare(password, student.password);
-        if(!validPass) return res.status(400).send('Invalid register number or password');
-
-        //Create and asign a token
-        const token = await student.generateToken();
-
-        res.status(200).json({
-            name : student.name,
-            surname: student.surname,
-            registerNumber: student.registerNumber,
-            email : student.email,
-            avatar : student.avatar,
-            token: token
-        })
-})
-
 const getStudent = (async (req, res) =>{
     try{
-        student = await Student.findById(req.params.id).select('-password')
+        const student = await Student.findById(req.params.id).select('-password')
         res.status(200).json(student);
     }
     catch(err){
@@ -95,20 +68,24 @@ const updateStudent = (async (req, res) =>{
 })
 
 const deleteStudent = (async (req, res) =>{
-    
-    try{
-
-        await Student.deleteOne(req.student._id);
-        res.status(200).json({message: "student deleted"});
+    if(req.student || req.admin )
+    {
+        try{
+            await Student.deleteOne(req.params.id);
+            res.status(200).json({message: "student deleted"});
+        }
+        catch(err){
+            res.status(400).json({ message: err});
+        }
     }
-    catch(err){
-        res.status(400).json({ message: err});
+    else{
+        res.status(500).send({message: "you can not delete this account"})
     }
 });
 
 const getAllStudents = (async (req, res)=>{
     try{
-        students = await Student.find();
+        const students = await Student.find();
         res.status(200).json(students);
     }
     catch(err){
@@ -121,7 +98,7 @@ const profil = (async (req, res)=>{
     if(req.file) profil = `profil/${req.file.filename}`
     try{
         await Student.findByIdAndUpdate(
-            req.params.id,
+            req.student._id,
             {avatar : profil},
             {new: true}
         );
@@ -135,7 +112,7 @@ const profil = (async (req, res)=>{
 const deleteProfil = (async (req, res) =>{
     try{
         await Student.findByIdAndUpdate(
-            req.params.id,
+            req.student._id,
             {avatar: 'profil/profil.jpg'},
             {new: true}
         );
@@ -146,4 +123,4 @@ const deleteProfil = (async (req, res) =>{
     }
 })
 
-module.exports = {register, login, getStudent, updateStudent, deleteStudent, getAllStudents, profil, deleteProfil}
+module.exports = {register, getStudent, updateStudent, deleteStudent, getAllStudents, profil, deleteProfil}

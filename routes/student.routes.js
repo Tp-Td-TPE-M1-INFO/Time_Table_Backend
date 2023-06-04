@@ -1,13 +1,11 @@
 const router = require('express').Router();
 const {register, login, getStudent, updateStudent, deleteStudent, getAllStudents, profil, deleteProfil } = require('../controllers/student.controller');
-const {protect} = require('../middlewares/studentAuth');
+const {protect} = require('../middlewares/protect');
 const upload = require('../middlewares/upload');
 
-
 router.post('/student/register', register);
-router.post('/student/login', login);
-router.get('/student/info/:id', getStudent)
-router.get('/student/all', getAllStudents)
+router.get('/student/info/:id', protect, getStudent)
+router.get('/student/all', protect, getAllStudents)
 router.patch('/student/update',protect, updateStudent)
 router.delete('/student/delete', protect, deleteStudent)
 router.patch('/student/profil/:id', protect, upload, profil)

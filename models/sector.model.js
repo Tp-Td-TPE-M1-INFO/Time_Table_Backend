@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const sectorSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Please add level name'],
+        unique: true,
+        required: true
     }
 },{
     timestamps: true

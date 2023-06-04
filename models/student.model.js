@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 
 const studentSchema = new mongoose.Schema({
     surname: {
@@ -41,22 +40,9 @@ const studentSchema = new mongoose.Schema({
         type: String,
         default : "student"
     },
-    token:{
-        type : String,
-        required: true
-    }
 },
 {
     timestamps: true
 }); 
-
-studentSchema.methods .generateToken = async function(){
-     const authToken = jwt.sign({ _id: this._id.toString()}, process.env.TOKEN_SECRET,{
-        expiresIn: 30*24*60*60*1000,
-      });
-      this.token=authToken;
-      await this.save();
-      return authToken
-}
 
 module.exports = mongoose.model('Student', studentSchema);   

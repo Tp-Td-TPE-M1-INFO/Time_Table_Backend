@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const Course = require('../models/course.model');
-const { default: mongoose } = require('mongoose');
-const { findOne } = require('../models/ue.model');
 
 //Get all courses
 const getCourses = asyncHandler(async (req,res) => {
@@ -32,7 +30,7 @@ const getCourse = asyncHandler(async (req,res) => {
 
 //Create class
 const createCourse = asyncHandler(async (req,res) => {
-   //console.log('the request body is :', req.body);
+   
     const {ue, hall, classe, teacher, description, start, end, n} = req.body;
     if(!ue || !hall || !classe || !teacher){
         res.status(400);
@@ -46,7 +44,7 @@ const createCourse = asyncHandler(async (req,res) => {
                 {start : {$lt : end}} 
             ]
         })
-        if(preview)
+        if(previews)
         {
             previews.forEach(preview => {
                 if(preview.hall == hall) 

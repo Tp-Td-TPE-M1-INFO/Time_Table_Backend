@@ -1,5 +1,5 @@
 const Teacher = require('../models/teacher.model');
-const {registerValidation, loginValidation} = require('../middlewares/validation');
+const {registerValidation} = require('../middlewares/validation');
 const bcrypt = require('bcrypt');
 const errorCtr = require('../utils/error.utils');
 
@@ -13,59 +13,33 @@ const register = (async (req, res)=>{
     const hashedPassword = await bcrypt.hash(password, salt);
     
     //Create a new teacher
-    const teacher = new Teacher({
-        name,
-        surname,
-        registerNumber,
-        phone,
-        email,
-        password: hashedPassword
-    });
-
+    
     try{
-        const authToken = await teacher.generateToken();
+        const teacher = await Teacher.create({
+            name,
+            surname,
+            registerNumber,
+            phone,
+            email,
+            password: hashedPassword
+        });
+
         res.status(201).json({
             name : teacher.name,
             surname: teacher.surname,
             registerNumber: teacher.registerNumber,
             email : teacher.email,
             avatar : teacher.avatar,
-            token: authToken
         })
     }catch(err){
-        errors = errorCtr.signUpErrors(err)
+        const errors = errorCtr.signUpErrors(err)
         res.status(400).json(errors);
     }
 })
 
-const login = (async (req, res) =>{
-    const{registerNumber, password } = req.body;
-
-    const {error} = loginValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-        //Check if the registration number exist
-        const teacher = await teacher.findOne({registerNumber});
-        if(!teacher) return res.status(400).send('Invalid register number or password');
-        //check if the password is correct
-        const validPass = await bcrypt.compare(password, teacher.password);
-        if(!validPass) return res.status(400).send('Invalid register number or password');
-
-        //Create and asign a token
-        const token = await teacher.generateToken();
-
-        res.status(200).json({
-            name : teacher.name,
-            surname: teacher.surname,
-            registerNumber: teacher.registerNumber,
-            email : teacher.email,
-            avatar : teacher.avatar,
-            token: token
-        })
-})
-
 const getTeacher = (async (req, res) =>{
     try{
-        teacher = await Teacher.findById(req.params._id).select('-password')
+        const teacher = await Teacher.findById(req.params._id).select('-password')
         res.status(200).json(teacher);
     }
     catch(err){
@@ -148,4 +122,4 @@ const deleteProfil = (async (req, res) =>{
     }
 })
 
-module.exports = {register, login, getTeacher, updateTeacher, deleteTeacher, getAllTeachers, profil, deleteProfil}
+module.exports = {register, getTeacher, updateTeacher, deleteTeacher, getAllTeachers, profil, deleteProfil}

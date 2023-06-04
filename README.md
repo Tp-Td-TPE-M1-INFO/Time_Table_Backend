@@ -1,18 +1,20 @@
 ***********************EndPoint****************************
+        
+
+        login
+login to any user : /api/login 
 
         Students endpoint
 register : /api/student/register
-login    : /api/student/register
 get one student : /api/student/info/:id
 get all students : /api/student/all
 update student : /api/student/update
 delete student : /api/student/delete
-update profil : /api/student/profil/:id
-delete profil : /api/student/deleteProfil/:id
+update profil : /api/student/profil
+delete profil : /api/student/deleteProfil
 
         teachers endpoint
 register : /api/teacher/register
-login    : /api/teacher/register
 get one teacher : /api/teacher/info/:id
 get all teachers : /api/teacher/all
 update teacher : /api/teacher/update

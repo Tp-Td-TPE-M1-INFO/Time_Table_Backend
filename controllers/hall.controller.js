@@ -1,15 +1,26 @@
 const Hall = require('../models/hall.model.js')
 
 const getHalls = (async (req, res) => {
-    await Hall.find({})
-        .then(result => res.status(200).json({ result }))
-        .catch(error => res.status(500).json({ msg: error }))
+
+    try
+    {
+        const halls = await Hall.find()
+        res.status(200).json(halls)
+    }
+    catch(err)
+    {
+        res.status(500).json(err)
+    }
 })
 
 const getHall = (async (req, res) => {
-    await Hall.findOne({ _id: req.params.hallID })
-        .then(result => res.status(200).json({ result }))
-        .catch(() => res.status(404).json({ msg: 'Hall not found' }))
+    try{
+        const hall = await Hall.findById(req.params.id)
+        res.status(200).json({hall})
+    }
+    catch(err){
+        res.status(400).json(err)
+    }
 })
 
 const createHall = (async (req, res) => {
@@ -26,8 +37,7 @@ const createHall = (async (req, res) => {
         else{
             res.status(500).send(err)
         }
-    }
-    
+    } 
 })
 
 const updateHall = (async (req, res) => {
@@ -50,9 +60,9 @@ const updateHall = (async (req, res) => {
 })
 
 const deleteHall = (async (req, res) => {
-    await Hall.findOneAndDelete({ _id: req.params.hallID })
+    await Hall.findOneAndDelete({ _id: req.params.id })
         .then(result => res.status(200).json({ result }))
-        .catch((error) => res.status(404).json({ msg: 'Hall not found' }))
+        .catch((error) => res.status(404).json({ msg: error }))
 })
 
 module.exports = {
