@@ -6,13 +6,11 @@ const classSchema = new mongoose.Schema({
         required: [true, 'Please add effectif'],
     },
     level: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'levels',
+        type: String,
         required: [true, 'Please add level']
     },
     sector: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'sectors',
+        type: String,
         required: [true, 'Please add sector']
     }
 },{

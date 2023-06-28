@@ -22,7 +22,9 @@ const getClass = asyncHandler(async (req,res) => {
 const createClass = asyncHandler(async (req,res) => {
     console.log('the request body is :', req.body);
     const {sector, level, effectif} = req.body;
-    if(!sector || !level || !effectif){
+    console.log(`${sector} - ${level} - ${effectif}`)
+
+    if(!sector || !level){
         res.status(400);
         throw new Error('All Fields are mandatory')
     };
