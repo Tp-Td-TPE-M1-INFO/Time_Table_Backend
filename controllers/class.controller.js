@@ -51,12 +51,12 @@ const updateClass = asyncHandler(async (req,res) => {
 
 //delete class
 const deleteClass = asyncHandler(async (req,res) => {
-    const classe = await Class.findById(req.params.id);
+    const classe = await Class.findByIdAndDelete(req.params.id);
     if(!classe){
         res.status(404);
         throw new Error('Class not found');
     };
-    await Class.deleteOne();
+    // await Class.deleteOne();
     res.status(200).json(classe)
 });
 

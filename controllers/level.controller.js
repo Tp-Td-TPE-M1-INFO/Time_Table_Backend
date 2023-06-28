@@ -48,12 +48,12 @@ const updateLevel = asyncHandler(async (req,res) =>{
 
 //delete Level
 const deleteLevel = asyncHandler(async (req,res) =>{
-    const level = await Level.findById(req.params.id);
+    const level = await Level.findByIdAndDelete(req.params.id);
     if(!level){
         res.status(404);
         throw new Error('Level not found');
     };
-    await Level.deleteOne();
+    // await Level.deleteOne();
     res.status(200).json(level);
 });
 

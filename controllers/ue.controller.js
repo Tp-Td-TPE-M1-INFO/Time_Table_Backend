@@ -49,12 +49,12 @@ const updateUE = asyncHandler(async (req,res) =>{
 
 //delete UE
 const deleteUE = asyncHandler(async (req,res) =>{
-    const ue = await UE.findById(req.params.id);
+    const ue = await UE.findByIdAndDelete(req.params.id);
     if(!ue){
         res.status(404);
         throw new Error('UE not found');
     };
-    await UE.deleteOne();
+    // await UE.deleteOne();
     res.status(200).json(ue);
 });
 
