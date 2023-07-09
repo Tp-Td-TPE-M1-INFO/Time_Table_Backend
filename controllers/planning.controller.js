@@ -2,7 +2,7 @@ const Planning = require('../models/planning.model')
 
 const getPlanningClass = (async (req, res) =>{
     try{
-        const planningClass = await Planning.find({classe : req.params.classId})
+        const planningClass = await Planning.find({classe : req.params.id})
         .populate("ue")
         .populate("hall")
         .populate("classe")
@@ -17,7 +17,7 @@ const getPlanningClass = (async (req, res) =>{
 
 const getPlanningHall = (async (req, res) =>{
     try{
-        const planningHall = await Planning.find({hall : req.params.hallId})
+        const planningHall = await Planning.find({hall : req.params.id})
         .populate("ue")
         .populate("hall")
         .populate("classe")
@@ -32,7 +32,7 @@ const getPlanningHall = (async (req, res) =>{
 
 const getPlanningTeacher = (async (req, res) =>{
     try{
-        const planningTeacher = await Planning.find({teacher : req.params.teacherId})
+        const planningTeacher = await Planning.find({teacher : req.params.id})
         .populate("ue")
         .populate("hall")
         .populate("classe")

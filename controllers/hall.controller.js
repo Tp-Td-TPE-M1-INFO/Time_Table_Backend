@@ -30,7 +30,7 @@ const createHall = (async (req, res) => {
         res.status(200).json(hall);
     }
     catch(err){
-        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("name")){
+        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("hallName")){
             res.status(400).send({message: "Hall name is already exit please change the name"});
         }
         else{
@@ -41,7 +41,7 @@ const createHall = (async (req, res) => {
 
 const updateHall = (async (req, res) => {
     try{
-        const hall = await Hall.findOneAndUpdate( 
+        const hall = await Hall.findByIdAndUpdate( 
             req.params.id, 
             req.body,
             { new: true, runValidators: true }
@@ -49,7 +49,7 @@ const updateHall = (async (req, res) => {
         res.status(200).json(hall);
     }
     catch(err){
-        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("name")){
+        if(err.code === 11000 && Object.keys(err.keyValue)[0].includes("hallName")){
             res.status(400).send({message: "Hall name is already exit please change the name"});
         }
         else{
