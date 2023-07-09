@@ -3,6 +3,11 @@ const Planning = require('../models/planning.model')
 const getPlanning = (async (req, res) => {
     try{
         const planning = await Planning.find()
+        .populate("ue")
+        .populate("hall")
+        .populate("classe")
+        .populate("teacher")
+        .exec();
         res.status(200).json(planning);
     }
     catch(err){
