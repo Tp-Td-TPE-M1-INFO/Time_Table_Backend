@@ -22,7 +22,9 @@ const getClass = asyncHandler(async (req,res) => {
 const createClass = asyncHandler(async (req,res) => {
     console.log('the request body is :', req.body);
     const {sector, level, effectif} = req.body;
-    if(!sector || !level || !effectif){
+    console.log(`${sector} - ${level} - ${effectif}`)
+
+    if(!sector || !level){
         res.status(400);
         throw new Error('All Fields are mandatory')
     };
@@ -51,12 +53,12 @@ const updateClass = asyncHandler(async (req,res) => {
 
 //delete class
 const deleteClass = asyncHandler(async (req,res) => {
-    const classe = await Class.findById(req.params.id);
+    const classe = await Class.findByIdAndDelete(req.params.id);
     if(!classe){
         res.status(404);
         throw new Error('Class not found');
     };
-    await Class.deleteOne();
+    // await Class.deleteOne();
     res.status(200).json(classe)
 });
 

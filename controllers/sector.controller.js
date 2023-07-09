@@ -48,12 +48,12 @@ const updateSector = asyncHandler(async (req,res) =>{
 
 //delete Sector
 const deleteSector = asyncHandler(async (req,res) =>{
-    const sector = await Sector.findById(req.params.id);
+    const sector = await Sector.findByIdAndDelete(req.params.id);
     if(!sector){
         res.status(404);
         throw new Error('Sector not found');
     };
-    await Sector.deleteOne();
+    // await Sector.deleteOne();
     res.status(200).json(sector);
 });
 
