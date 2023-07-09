@@ -1,5 +1,15 @@
 const Planning = require('../models/planning.model')
 
+const getPlanning = (async (req, res) => {
+    try{
+        const planning = await Planning.find()
+        res.status(200).json(planning);
+    }
+    catch(err){
+        res.status(400).json(err);
+    }
+});
+
 const getPlanningClass = (async (req, res) =>{
     try{
         const planningClass = await Planning.find({classe : req.params.id})
@@ -45,4 +55,4 @@ const getPlanningTeacher = (async (req, res) =>{
     }
 });
 
-module.exports = { getPlanningClass, getPlanningHall, getPlanningTeacher}
+module.exports = { getPlanningClass, getPlanningHall, getPlanningTeacher, getPlanning}

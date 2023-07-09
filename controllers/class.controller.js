@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const Class = require('../models/class.model');
-const { default: mongoose } = require('mongoose');
 
 //Get all classes
 const getClasses = asyncHandler(async (req,res) => {
@@ -22,8 +21,6 @@ const getClass = asyncHandler(async (req,res) => {
 const createClass = asyncHandler(async (req,res) => {
     console.log('the request body is :', req.body);
     const {sector, level, effectif} = req.body;
-    console.log(`${sector} - ${level} - ${effectif}`)
-
     if(!sector || !level){
         res.status(400);
         throw new Error('All Fields are mandatory')

@@ -23,11 +23,11 @@ login to any user : /api/login
 + delete profil : /api/teacher/deleteProfil/:id
 
         Halls endpoint
-+ get all halls: /api/hall/getHalls
-+ get one hall : /api/hall/:hallID
++ get all halls: /api/hall/allHalls
++ get one hall : /api/hall/:id
 + create hall : /api/hall/create
-+ update hall : /api/hall/update/:hallID
-+ delete hall: /api/hall/delete/:hallID
++ update hall : /api/hall/update/:id
++ delete hall: /api/hall/delete/:id
   
         UE endpoint
 
