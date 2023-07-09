@@ -20,3 +20,14 @@
     "phone": "693079514",
     "password": "123456"
 }
+
+// course 
+{
+    "ue" : "649be8e1e9f231159801caaf",
+    "classe" : "649c203287b02af659723dec",
+    "hall" : "64556cb13b7d35589c2d46c2",
+    "teacher" : "647bd6c9381615a056f0a798", 
+    "description" : "programme v1", 
+    "start": 6526515454544564145,
+    "end" :  6551565564545455454
+}

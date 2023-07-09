@@ -29,6 +29,7 @@ const getCourse = asyncHandler(async (req, res) => {
   res.status(200).json(course);
 });
 
+
 //Create class
 const createCourse = async (req, res) => {
   const { ue, hall, classe, teacher, description, start, end } = req.body;
@@ -41,7 +42,6 @@ const createCourse = async (req, res) => {
 
   if (previews[0]) {
     let err = [];
-    console.log("--------yo--------------------")
     previews.forEach((preview) => {
       if (preview.hall == hall) {
         err.push({ salle: "salle déjà occupée" });
@@ -53,7 +53,7 @@ const createCourse = async (req, res) => {
         err.push({ classe: "classe déjà occupée" });
       }
     });
-    if(err)return res.status(400).json(err);
+    if(err[0])return res.status(400).json(err);
   }
   try {
     const course = await Course.create({
@@ -66,6 +66,7 @@ const createCourse = async (req, res) => {
       end,
     });
     await Planning.create({
+      _id : course._id,
       ue,
       hall,
       classe,
@@ -83,15 +84,20 @@ const createCourse = async (req, res) => {
 //Update courses
 const updateCourse = asyncHandler(async (req, res) => {
   const { ue, hall, classe, teacher, description, start, end } = req.body;
-  const previews = await Course.find({
-    $or: [
-      { $and: [{ start: { $lte: req.body.end } }, { end: { $gte: req.body.end } }] },
-      { $and: [{ start: { $lte: req.body.start } }, { end: { $gte: req.body.start } }] },
-    ],
+  const previews = await Planning.find({
+    $and : [
+      {
+        $or: [
+          { $and: [{ start: { $lte: req.body.end } }, { end: { $gte: req.body.end } }] },
+          { $and: [{ start: { $lte: req.body.start } }, { end: { $gte: req.body.start } }] },
+        ],
+      },
+      { _id: {$ne: req.params.id} }
+    ]
   });
-
-  let err = [];
-  if (previews) {
+  console.log(previews);
+  if (previews[0]) {
+    let err = [];
     previews.forEach((preview) => {
       if (preview.hall == hall) {
         err.push({ salle: "salle déjà occupée" });
@@ -103,7 +109,7 @@ const updateCourse = asyncHandler(async (req, res) => {
         err.push({ classe: "classe déjà occupée" });
       }
     });
-    return res.status(400).json(err);
+    if(err[0])return res.status(400).json(err);
   }
   try {
     const course = await Course.findByIdAndUpdate(req.params.id, {
@@ -135,14 +141,16 @@ const updateCourse = asyncHandler(async (req, res) => {
 });
 
 //delete class
-const deleteCourse = asyncHandler(async (req, res) => {
-  const course = await Course.findByIdAndDelete(req.params.id);
-  if (!course) {
-    res.status(404);
-    throw new Error("Course not found");
+const deleteCourse = (async (req, res) => {
+  try{
+    await Course.findByIdAndDelete(req.params.id);
+    await Planning.findByIdAndDelete(req.params.id);
+    res.status(200).json({Message : "Coures deleted"});
   }
-  await Course.deleteOne();
-  res.status(200).json(course);
+  catch(err)
+  {
+    res.status(400).json(err);
+  }
 });
 
 module.exports = {

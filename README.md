@@ -57,3 +57,26 @@ login to any user : /api/login
 + get one class(GET): api/class/id
 + update class(PUT): api/class/id
 + delete class(DELETE): api/class/id
+
+
+        Course endPoints : 
+create course(POST) : /api/course/create
+update course(PATCH) : /api/course/update/id
+delete course(DELETE) : /api/course/delete/id
+get one course(GET) : /api/course/getCourse/id
+get all course(GET) : /api/course/getCourse
+
+        Event endPoints
+
+create event(POST) : /api/event/create
+update event(PATCH) : /api/event/update/id
+delete event(DELETE) : /api/event/delete/id
+get one event(GET) : /api/event/getEvent/id
+get all event(GET) : /api/event/getEvent
+
+        Plannig endPoints
+get all planning (GET) : /api/planning
+get classe planning(GET) : /api/planning/id
+get hall planning(GET) : /api/planning/id
+get teacher planning(GET) : /api/planning/id
+
