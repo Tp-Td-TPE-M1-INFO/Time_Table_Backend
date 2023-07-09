@@ -1,9 +1,7 @@
-
-
 const mongoose = require('mongoose')
 
 const HallSchema = new mongoose.Schema({
-    name:{
+    hallName:{
         type : String,
         required: true,
         unique: true
@@ -17,7 +15,6 @@ const HallSchema = new mongoose.Schema({
     timestamps: true
 }
 )
-
 const Hall = mongoose.model('Hall', HallSchema)
 
 module.exports = Hall

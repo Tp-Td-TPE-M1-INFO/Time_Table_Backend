@@ -34,7 +34,7 @@ const studentSchema = new mongoose.Schema({
     },
     avatar:{
         type: String,
-        default: '../images/profil/profil.png'
+        default: 'profil/profil.jpg'
     },
     role:{
         type: String,
@@ -45,4 +45,4 @@ const studentSchema = new mongoose.Schema({
     timestamps: true
 }); 
 
-module.exports = mongoose.model('Student', studentSchema);   
+module.exports = mongoose.model('Student', studentSchema);

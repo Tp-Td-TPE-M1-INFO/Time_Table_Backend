@@ -38,7 +38,7 @@ const register = (async (req, res)=>{
 
 const getStudent = (async (req, res) =>{
     try{
-        const student = await Student.findById(req.params.id).select('-password')
+        const student = await Student.findById(req.student._id).select('-password')
         res.status(200).json(student);
     }
     catch(err){

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const levelSchema = new mongoose.Schema({
-    name: {
+    levelName: {
         type: String,
-        required: [true, 'Please add level name'],
+        required: true
     }
 },{
     timestamps: true

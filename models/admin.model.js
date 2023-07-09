@@ -34,7 +34,7 @@ const adminSchema = new mongoose.Schema({
     },
     avatar:{
         type: String,
-        default: '../images/profil/profil.png'
+        default: 'profil/profil.jpg'
     },
     role:{
         type: String,

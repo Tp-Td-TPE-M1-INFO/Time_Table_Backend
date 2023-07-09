@@ -15,10 +15,12 @@ app.use('/api', require('./routes/class.routes'));
 app.use('/api', require('./routes/level..routes'));
 app.use('/api', require('./routes/sector.routes'));
 app.use('/api', require('./routes/course.routes'));
-app.use('/api', require('./routes/otherEvent.routes'));
+app.use('/api', require('./routes/event.routes'));
 app.use('/api', require('./routes/student.routes'));
 app.use('/api', require('./routes/teacher.routes'));
+app.use('/api', require('./routes/admin.routes'));
 app.use('/api', require('./routes/hall.routes.js'));
+app.use('/api', require('./routes/planning.routes'));
 app.use('/api', require('./routes/login.routes'));
 
 app.get("/", (req, res) =>{

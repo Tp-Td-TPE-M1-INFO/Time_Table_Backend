@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const OtherEvent = require('../models/otherEvent.model');
-const { default: mongoose } = require('mongoose');
+const OtherEvent = require('../models/event.model');
 
 //Get all otherEvents
 const getOtherEvents = asyncHandler(async (req,res) => {

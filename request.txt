@@ -11,3 +11,12 @@
     "phone": "693039514",
     "password": "123456"
 }
+
+{
+    "surname": "Hippolyte",
+    "name": "Tapamo",
+    "registerNumber": "00M2082",
+    "email" : "tapamo@gmail.com",
+    "phone": "693079514",
+    "password": "123456"
+}

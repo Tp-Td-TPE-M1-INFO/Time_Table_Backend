@@ -4,36 +4,43 @@ const bcrypt = require('bcrypt');
 const errorCtr = require('../utils/error.utils');
 
 //Check if the registration number is already in the database
-const register = (async (req, res)=>{
-    const {name, surname, registerNumber, phone, email, password} = req.body;
-    const {error} = registerValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
-    //Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+const addTeacher = (async (req, res)=>{
     
-    //Create a new teacher
+    if(req.admin){
+        const {name, surname, registerNumber, phone, email, password} = req.body;
+        const {error} = registerValidation(req.body);
+        if(error) return res.status(400).send(error.details[0].message);
+        //Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        //Create a new teacher
     
-    try{
-        const teacher = await Teacher.create({
-            name,
-            surname,
-            registerNumber,
-            phone,
-            email,
-            password: hashedPassword
-        });
+        try{
+            const teacher = await Teacher.create({
+                name,
+                surname,
+                registerNumber,
+                phone,
+                email,
+                password: hashedPassword
+            });
+    
+            res.status(201).json({
+                name : teacher.name,
+                surname: teacher.surname,
+                registerNumber: teacher.registerNumber,
+                email : teacher.email,
+                avatar : teacher.avatar,
+            })
+        }catch(err){
+            const errors = errorCtr.signUpErrors(err)
+            res.status(400).json(errors);
+        }
 
-        res.status(201).json({
-            name : teacher.name,
-            surname: teacher.surname,
-            registerNumber: teacher.registerNumber,
-            email : teacher.email,
-            avatar : teacher.avatar,
-        })
-    }catch(err){
-        const errors = errorCtr.signUpErrors(err)
-        res.status(400).json(errors);
+    }
+    else{
+        res.status(401).json({message: "you are not a admin you can not create a teacher"})
     }
 })
 
@@ -83,7 +90,7 @@ const deleteTeacher = (async (req, res) =>{
 
 const getAllTeachers = (async (req, res)=>{
     try{
-        teachers = await Teacher.find();
+        const teachers = await Teacher.find();
         res.status(200).json(teachers);
     }
     catch(err){
@@ -95,12 +102,12 @@ const profil = (async (req, res)=>{
     let profil;
     if(req.file) profil = `profil/${req.file.filename}`
     try{
-        await Teacher.findByIdAndUpdate(
+        const teacher = await Teacher.findByIdAndUpdate(
             req.params.id,
             {avatar : profil},
             {new: true}
         );
-        res.status(200).send("profil updated")
+        res.status(200).send(teacher)
     } 
     catch(err){
         console.log(err)
@@ -122,4 +129,4 @@ const deleteProfil = (async (req, res) =>{
     }
 })
 
-module.exports = {register, getTeacher, updateTeacher, deleteTeacher, getAllTeachers, profil, deleteProfil}
+module.exports = {addTeacher, getTeacher, updateTeacher, deleteTeacher, getAllTeachers, profil, deleteProfil}

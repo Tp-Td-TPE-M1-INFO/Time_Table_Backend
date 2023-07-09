@@ -1,7 +1,6 @@
 const Hall = require('../models/hall.model.js')
 
 const getHalls = (async (req, res) => {
-
     try
     {
         const halls = await Hall.find()
@@ -43,7 +42,7 @@ const createHall = (async (req, res) => {
 const updateHall = (async (req, res) => {
     try{
         const hall = await Hall.findOneAndUpdate( 
-            req.params.hallID, 
+            req.params.id, 
             req.body,
             { new: true, runValidators: true }
         )
