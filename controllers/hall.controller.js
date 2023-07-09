@@ -23,9 +23,9 @@ const getHall = (async (req, res) => {
 })
 
 const createHall = (async (req, res) => {
-    const{name, capacity} = req.body;
+    const{hallName, capacity} = req.body;
     try{
-        const hall = new Hall({name, capacity});
+        const hall = new Hall({hallName, capacity});
         await hall.save();
         res.status(200).json(hall);
     }
