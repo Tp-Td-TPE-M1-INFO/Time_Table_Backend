@@ -2,6 +2,7 @@ const Student = require('../models/student.model');
 const {registerValidation} = require('../middlewares/validation');
 const bcrypt = require('bcrypt');
 const errorCtr = require('../utils/error.utils');
+const asyncHandler = require('express-async-handler');
 
 //Check if the registration number is already in the database
 const register = (async (req, res)=>{
@@ -67,18 +68,18 @@ const updateStudent = (async (req, res) =>{
     }
 })
 
-const deleteStudent = (async (req, res) =>{
-   
-        try{
-            await Student.deleteOne(req.params.id);
-            res.status(200).json({message: "student deleted"});
-        }
-        catch(err){
-            res.status(400).json({ message: err});
-        }
-    
-   
+//Delete Student
+const deleteStudent = asyncHandler(async (req,res) => {
+    const classe = await Student.findByIdAndDelete(req.params.id);
+    if(!classe){
+        res.status(404);
+        throw new Error('Student not found');
+    };
+    // await Class.deleteOne();
+    res.status(200).json({message: "student deleted"})
 });
+
+
 
 const getAllStudents = (async (req, res)=>{
     try{
