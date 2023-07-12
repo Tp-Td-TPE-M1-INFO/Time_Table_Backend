@@ -68,8 +68,7 @@ const updateStudent = (async (req, res) =>{
 })
 
 const deleteStudent = (async (req, res) =>{
-    if(req.student || req.admin )
-    {
+   
         try{
             await Student.deleteOne(req.params.id);
             res.status(200).json({message: "student deleted"});
@@ -78,9 +77,7 @@ const deleteStudent = (async (req, res) =>{
             res.status(400).json({ message: err});
         }
     }
-    else{
-        res.status(500).send({message: "you can not delete this account"})
-    }
+   
 });
 
 const getAllStudents = (async (req, res)=>{
