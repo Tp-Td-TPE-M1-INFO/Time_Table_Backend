@@ -48,13 +48,17 @@ const getTeacher = async (req, res) => {
   }
 };
 
+
+//Update teacher 
+
 const updateTeacher = async (req, res) => {
-  if (!ObjectID.isValid(req.teacher._id))
+  const { name, surname, email, phone,id } = req.body;
+  if (!ObjectID.isValid(id))
     return res.status(400).send("Id unknown :" + req.teacher._id);
-  const { name, surname, email, phone } = req.body;
+  
   try {
     const updateTeacher = await Teacher.findByIdAndUpdate(
-      req.teacher._id,
+      id,
       {
         surname: surname,
         name: name,
