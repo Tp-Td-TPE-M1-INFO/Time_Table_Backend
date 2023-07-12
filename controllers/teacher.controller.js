@@ -2,6 +2,8 @@ const Teacher = require("../models/teacher.model");
 const { registerValidation } = require("../middlewares/validation");
 const bcrypt = require("bcrypt");
 const errorCtr = require("../utils/error.utils");
+const asyncHandler = require('express-async-handler');
+
 
 //Check if the registration number is already in the database
 const addTeacher = async (req, res) => {
@@ -46,13 +48,17 @@ const getTeacher = async (req, res) => {
   }
 };
 
+
+//Update teacher 
+
 const updateTeacher = async (req, res) => {
-  if (!ObjectID.isValid(req.teacher._id))
-    return res.status(400).send("Id unknown :" + req.teacher._id);
-  const { name, surname, email, phone } = req.body;
+  
+  if (!ObjectID.isValid(req.body.id))
+    return res.status(400).send("Id unknown :" + req.body.id);
+  const { name, surname, email, phone,id } = req.body;
   try {
     const updateTeacher = await Teacher.findByIdAndUpdate(
-      req.teacher._id,
+      id,
       {
         surname: surname,
         name: name,
@@ -65,16 +71,24 @@ const updateTeacher = async (req, res) => {
   } catch (err) {
     res.status(400).send(err);
   }
-};
 
-const deleteTeacher = async (req, res) => {
-  try {
-    await Teacher.deleteOne(req.teacher._id);
-    res.status(200).json({ message: "teacher deleted" });
-  } catch (err) {
-    res.status(400).json({ message: err });
-  }
-};
+
+
+
+
+//Delete Teacher 
+const deleteTeacher = asyncHandler(async (req,res) => {
+    const classe = await Teacher.findByIdAndDelete(req.params.id);
+    if(!classe){
+        res.status(404);
+        throw new Error('teacher not found');
+    };
+    // await Class.deleteOne();
+    res.status(200).json({message: "Teacher deleted"})
+});
+
+
+
 
 const getAllTeachers = async (req, res) => {
   try {

@@ -7,7 +7,7 @@ router.post('/student/register', register);
 router.get('/student/get_student', protect, getStudent)
 router.get('/student/all', getAllStudents)
 router.patch('/student/update', updateStudent)
-router.delete('/student/delete', deleteStudent)
+router.delete('/student/delete/:id', deleteStudent)
 router.patch('/student/profil/:id', upload, profil)
 router.patch('/student/deleteProfil/:id', deleteProfil)
 

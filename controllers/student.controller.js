@@ -38,7 +38,7 @@ const register = async (req, res) => {
 
 const getStudent = async (req, res) => {
   try {
-    const student = await Student.findById(req.student._id).select("-password");
+    const student = await Student.findById(req.params.id).select("-password");
     res.status(200).json(student);
   } catch (err) {
     res.status(400).send(err);
@@ -49,14 +49,14 @@ const updateStudent = async (req, res) => {
   const { name, surname, email, phone } = req.body;
   try {
     const updateStudent = await Student.findByIdAndUpdate(
-      req.student._id,
+      req.params.id,
       {
-        surname: surname,
-        name: name,
-        email: email,
-        phone: phone,
+        surname,
+        name,
+        email,
+        phone,
       },
-      { new: true }
+      { new: true, upsert : true }
     ).select("-password");
     res.status(200).json(updateStudent);
   } catch (err) {
@@ -87,9 +87,9 @@ const profil = async (req, res) => {
   if (req.file) profil = `profil/${req.file.filename}`;
   try {
     await Student.findByIdAndUpdate(
-      req.student._id,
+      req.params._id,
       { avatar: profil },
-      { new: true }
+      { new: true, upsert: true }
     );
     res.status(200).send("image uploaded");
   } catch (err) {
@@ -100,7 +100,7 @@ const profil = async (req, res) => {
 const deleteProfil = async (req, res) => {
   try {
     await Student.findByIdAndUpdate(
-      req.student._id,
+      req.params.id,
       { avatar: "profil/profil.jpg" },
       { new: true }
     );
@@ -108,6 +108,16 @@ const deleteProfil = async (req, res) => {
   } catch (err) {
     res.statut(400).send(err);
   }
+};
+
+module.exports = {
+  register,
+  getStudent,
+  updateStudent,
+  deleteStudent,
+  getAllStudents,
+  profil,
+  deleteProfil,
 };
 
 module.exports = {
