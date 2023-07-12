@@ -49,10 +49,10 @@ const getStudent = (async (req, res) =>{
 
 const updateStudent = (async (req, res) =>{
 
-    const {name, surname, email, phone} = req.body
+    const {name, surname, email, phone,id} = req.body
     try{
         const updateStudent = await Student.findByIdAndUpdate(
-            req.student._id,
+            id,
             {
                 surname: surname,
                 name: name,
