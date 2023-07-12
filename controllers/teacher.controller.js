@@ -51,27 +51,28 @@ const getTeacher = async (req, res) => {
 
 //Update teacher 
 
-const updateTeacher = async (req, res) => {
-  const { name, surname, email, phone,id } = req.body;
-  if (!ObjectID.isValid(id))
-    return res.status(400).send("Id unknown :" + req.teacher._id);
-  
-  try {
-    const updateTeacher = await Teacher.findByIdAndUpdate(
-      id,
-      {
-        surname: surname,
-        name: name,
-        email: email,
-        phone: phone,
-      },
-      { new: true }
-    ).select("-password");
-    res.status(200).json(updateTeacher);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
+const updateTeacher = (async (req, res) =>{
+
+    const {name, surname, email, phone,id} = req.body
+    try{
+        const updateStudent = await Teacher.findByIdAndUpdate(
+            id,
+            {
+                surname: surname,
+                name: name,
+                email: email,
+                phone: phone
+            },
+            {new: true},
+        ).select('-password');
+        res.status(200).json(updateStudent);
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
+})
+
+
 
 
 //Delete Teacher 
