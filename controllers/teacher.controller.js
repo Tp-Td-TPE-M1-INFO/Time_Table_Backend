@@ -71,10 +71,7 @@ const updateTeacher = async (req, res) => {
   } catch (err) {
     res.status(400).send(err);
   }
-
-
-
-
+}
 
 //Delete Teacher 
 const deleteTeacher = asyncHandler(async (req,res) => {
@@ -86,9 +83,6 @@ const deleteTeacher = asyncHandler(async (req,res) => {
     // await Class.deleteOne();
     res.status(200).json({message: "Teacher deleted"})
 });
-
-
-
 
 const getAllTeachers = async (req, res) => {
   try {
@@ -135,5 +129,5 @@ module.exports = {
   deleteTeacher,
   getAllTeachers,
   profil,
-  deleteProfil,
+  deleteProfil
 };
